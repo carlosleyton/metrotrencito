@@ -1,14 +1,16 @@
 import Station from '../interfaces/station';
 import React, { useMemo, useState } from 'react'
-import { useLocalFetchStations } from '../services/station-service';
+import { useFetchStations, useLocalFetchStations } from '../services/station-service';
 import { StationCard } from './station-card';
 import  {Pagination} from './pagination';
 
 let pageSize = 5;
 
 export const StationList = () => {
-    //const { data: stations, isLoading, error } = useFetchStations();
-    const [stations, setStations] = useState(useLocalFetchStations());
+    const { data, isLoading, error } = useFetchStations();
+    //const [stations, setStations] = useState(useLocalFetchStations());
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [stations, setStations] = useState(data || useLocalFetchStations());
     const sourceStations = useLocalFetchStations() ;
     const [city, setCity] = useState("");
     const [code, setCode] = useState("");
@@ -25,26 +27,21 @@ export const StationList = () => {
      */
     const handleFilter = () => {
         let filtredStations = sourceStations;
-        //console.log(sourceStations,'ref')
         if (city !== "" && code !== "") {
-            //console.log('-> 1')
             filtredStations = sourceStations.filter(
                 (station) => station.city.includes(city.toUpperCase()) && station.code.includes(code.toUpperCase())
             )
         }
         else if (city !== "" && code === "") {
-            //console.log('-> 2')
             filtredStations = sourceStations.filter(
                 (station) => station.city.includes(city.toUpperCase())
             )
         }
         else if (city === "" && code !== "") {
-            //console.log('-> 3')
             filtredStations = sourceStations.filter(
                 (station) => station.code.includes(code.toUpperCase())
             )
         }
-        //console.log(city, code, filtredStations)
         setStations(filtredStations)
     }
 
@@ -74,9 +71,10 @@ export const StationList = () => {
         </div>
 
           {currentTableData &&
-              currentTableData.map((station: Station) => (
-                  <>
+              currentTableData.map((station: Station, index: number) => (
+                  <React.Fragment key={index}>
                       <StationCard
+
                           code={station.code}
                           address={station.address}
                           city={station.city}
@@ -84,8 +82,7 @@ export const StationList = () => {
                           schedule={station.schedule}
                       />
                       <hr />
-
-                  </>
+                  </React.Fragment>
               )
             )
           }

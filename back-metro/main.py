@@ -8,7 +8,7 @@ app = FastAPI()
 def read_root():
     return {"hola": "mundo"}
 
-@app.post("/stations/")
+@app.post("/stations")
 async def root():
     stations = await get_stations()
     return {"stations": stations}

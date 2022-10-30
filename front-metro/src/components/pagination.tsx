@@ -42,13 +42,14 @@ export  const Pagination = (props: any) => {
             >
                 <div className="arrow left" />
             </li>
-            {paginationRange && paginationRange.map(pageNumber => {
+            {paginationRange && paginationRange.map((pageNumber: number | string, index: number) => {
                 if (pageNumber === DOTS) {
-                    return <li className="pagination-link pagination-item dots">&#8230;</li>;
+                    return <li key={index}  className="pagination-link pagination-item dots">&#8230;</li>;
                 }
 
                 return (
                     <li
+                        key={index}
                         className={`pagination-link ${pageNumber === currentPage ? "is-current" : ""}`}
                         onClick={() => onPageChange(pageNumber)}
                     >

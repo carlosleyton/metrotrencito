@@ -11,8 +11,8 @@ const API = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
  */
 const useFetchStations = () => {
     return useQuery<Station[], Error>(['stations'], async () => {
-        const response = await axios.get(
-            `${API}/stations/`, {
+        const response = await axios.post(
+            `${API}/stations`, {},{
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,11 +24,11 @@ const useFetchStations = () => {
                 console.log(error.response.status, 'stat');
                 console.log(error.response.headers, 'headers');
             } else if (error.request) {
-                console.log(error.request.toJSON(), 'req');
+                console.log(error.request, 'req');
             } else {
                 console.log('Error', error.message, 'mess');
             }
-            console.log(error.toJSON(), 'def');
+            console.log(error, 'def');
         });
         return response?.data;
     });

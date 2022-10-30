@@ -3,7 +3,7 @@ import Station from '../interfaces/station';
 import { useQuery } from 'react-query';
 import { localStations } from './stations';
 
-const API = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
+const API = process.env.REACT_APP_API_URL;
 
 /**
  * It fetches the stations from the API and returns the data
@@ -12,12 +12,12 @@ const API = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
 const useFetchStations = () => {
     return useQuery<Station[], Error>(['stations'], async () => {
         const response = await axios.post(
-            `${API}/stations`, {},{
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }
+            `${API}/stations`, {}, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }
         ).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data,'data');

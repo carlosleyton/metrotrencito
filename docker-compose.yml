@@ -1,5 +1,5 @@
 
-version: '3.8'
+version: '3'
 
 services:
 
@@ -11,13 +11,5 @@ services:
     build: ./front-metro
     ports:
       - "3000"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy-data:/data
-      - caddy-config:/config
     depends_on:
       - backend
-
-volumes:
-  caddy-data:
-  caddy-config:
